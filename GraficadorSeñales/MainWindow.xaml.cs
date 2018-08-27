@@ -23,9 +23,6 @@ namespace GraficadorSeñales
         public MainWindow()
         {
             InitializeComponent();
-
-           
-
         }
 
         private void btnGraficar_Click(object sender, RoutedEventArgs e)
@@ -36,8 +33,7 @@ namespace GraficadorSeñales
             double tiempoInicial = double.Parse(txtTiempoInicial.Text);
             double tiempoFinal = double.Parse(txtTiempoFinal.Text);
             double frecuenciaMuestreo = double.Parse(txtFrecuenciaMuestreo.Text);
-
-
+            
             SeñalSenoidal señal = new SeñalSenoidal(amplitud, fase, frecuencia); //constructor
 
             double periodoMuestreo = 1 / frecuenciaMuestreo;
@@ -46,9 +42,25 @@ namespace GraficadorSeñales
 
             for(double i = tiempoInicial; i <= tiempoFinal; i += periodoMuestreo)
             {
-                plnGrafica.Points.Add(new Point(i * scrContenedor.Width, (señal.evaluar(i) * ((scrContenedor.Height / 2.0 ) - 30) * -1) + (scrContenedor.Height / 2)));
-            }
+                double valorMuestra = señal.evaluar(i);
+                señal.Muestras.Add(new Muestra(i, valorMuestra));
 
+                if (Math.Abs(valorMuestra) > señal.AmplitudMaxima)
+                {
+                    señal.AmplitudMaxima = Math.Abs(valorMuestra);
+
+                }
+                
+            }
+            //Recorre todos los elementos de una coleccion o arreglo
+            foreach (Muestra muestra in señal.Muestras)
+            {
+                plnGrafica.Points.Add(new Point(muestra.X * scrContenedor.Width, (muestra.Y * ((scrContenedor.Height / 2.0) - 30) * -1) + (scrContenedor.Height / 2)));
+
+            }
+            
         }
+
     }
+
 }
