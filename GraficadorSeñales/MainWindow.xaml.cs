@@ -52,6 +52,7 @@ namespace GraficadorSeñales
                 }
                 
             }
+
             //Recorre todos los elementos de una coleccion o arreglo
             foreach (Muestra muestra in señal.Muestras)
             {
@@ -61,6 +62,31 @@ namespace GraficadorSeñales
             
         }
 
+        private void btnGraficarRampa_Click(object sender, RoutedEventArgs e)
+        {
+            double tiempoInicial = double.Parse(txtTiempoInicial.Text);
+            double tiempoFinal = double.Parse(txtTiempoFinal.Text);
+
+            SeñalRampa rampa = new SeñalRampa(tiempoInicial, tiempoFinal);
+
+            plnGrafica.Points.Clear();
+
+            for (double i = tiempoInicial; i <= tiempoFinal; i++)
+            {
+                double valorMuestra = rampa.evaluar(i);
+                rampa.Muestras.Add(new Muestra(i, valorMuestra));
+                
+
+            }
+
+            foreach (Muestra muestra in rampa.Muestras)
+            {
+                plnGrafica.Points.Add(new Point(muestra.X * scrContenedor.Width, (muestra.Y * ((scrContenedor.Height / 2.0) - 30) * -1) + (scrContenedor.Height / 2)));
+
+            }
+           
+        }
+        
     }
 
 }
