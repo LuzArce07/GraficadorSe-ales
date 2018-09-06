@@ -21,12 +21,16 @@
         <TextBox x:Name="txtFrecuenciaMuestreo" HorizontalAlignment="Left" Height="23" Margin="123,238,0,0" TextWrapping="Wrap" Text="1000" VerticalAlignment="Top" Width="94"/>
         <Button x:Name="btnGraficar" Content="Graficar Señal Senoidal" HorizontalAlignment="Left" Margin="10,279,0,0" VerticalAlignment="Top" Width="207" Height="36" Click="btnGraficar_Click"/>
         <ScrollViewer x:Name="scrContenedor" HorizontalAlignment="Left" Height="353" Margin="280,42,0,0" VerticalAlignment="Top" Width="486" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Hidden" >
-            <Polyline Stroke="Orange" StrokeThickness="2" Name="plnGrafica" />
+            <Grid>
+                <Polyline Stroke="Magenta" StrokeThickness="2" Name="plnGrafica" />
+                <Polyline Stroke="Black" StrokeThickness="1" Name="plnEjeX" />
+                <Polyline Stroke="Black" StrokeThickness="1" Name="plnEjeY" />
+            </Grid>
         </ScrollViewer>
         <Button x:Name="btnGraficarRampa" Content="Graficar Señal Rampa" HorizontalAlignment="Left" Margin="10,334,0,0" VerticalAlignment="Top" Width="207" Height="36" Click="btnGraficarRampa_Click"/>
-        <TextBlock x:Name="lblAmplitudMaximaY" HorizontalAlignment="Left" Margin="232,49,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="46"/>
-        <TextBlock x:Name="lblAmplitudMaximaNegativaY" HorizontalAlignment="Left" Margin="231,362,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" RenderTransformOrigin="3.787,0.376" Width="46"/>
-        <TextBlock x:Name="lblAmplitudCero" HorizontalAlignment="Left" Margin="250,207,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="21"/>
+        <TextBlock x:Name="lblAmplitudMaximaY" HorizontalAlignment="Left" Margin="233,47,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="46"/>
+        <TextBlock x:Name="lblAmplitudMaximaNegativaY" HorizontalAlignment="Left" Margin="233,354,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" RenderTransformOrigin="3.787,0.376" Width="46"/>
+        <TextBlock x:Name="lblAmplitudCero" HorizontalAlignment="Left" Margin="257,209,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="21" FontSize="16"/>
 
     </Grid>
 </Window>

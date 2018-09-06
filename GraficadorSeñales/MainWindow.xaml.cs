@@ -44,9 +44,24 @@ namespace GraficadorSeñales
             //Recorre todos los elementos de una coleccion o arreglo
             foreach (Muestra muestra in señal.Muestras)
             {
-                plnGrafica.Points.Add(new Point(muestra.X * scrContenedor.Width, (muestra.Y / señal.AmplitudMaxima * ((scrContenedor.Height / 2.0) - 30) * -1) + (scrContenedor.Height / 2)));
-
+                plnGrafica.Points.Add(new Point((muestra.X - tiempoInicial) * scrContenedor.Width, (muestra.Y / 
+                    señal.AmplitudMaxima * ((scrContenedor.Height / 2.0) - 30) * -1) + (scrContenedor.Height / 2)));
+                
             }
+
+            plnEjeX.Points.Clear();
+            //Punto del principio
+            plnEjeX.Points.Add(new Point(0, (scrContenedor.Height / 2)));
+            //Punto del final
+            plnEjeX.Points.Add(new Point((tiempoFinal - tiempoInicial) * scrContenedor.Width, (scrContenedor.Height / 2)));
+
+            plnEjeY.Points.Clear();
+            //Punto del principio
+            plnEjeY.Points.Add(new Point((0 - tiempoInicial) * scrContenedor.Width , (señal.AmplitudMaxima * 
+                ((scrContenedor.Height / 2.0) - 30) * -1) + (scrContenedor.Height / 2)));
+            //Punto del final
+            plnEjeY.Points.Add(new Point((0 - tiempoInicial) * scrContenedor.Width, (-señal.AmplitudMaxima * 
+                ((scrContenedor.Height / 2.0) - 30) * -1) + (scrContenedor.Height / 2)));
 
             lblAmplitudMaximaY.Text = señal.AmplitudMaxima.ToString();
             lblAmplitudMaximaNegativaY.Text = "-" + señal.AmplitudMaxima.ToString();
