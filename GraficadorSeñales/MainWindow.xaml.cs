@@ -21,34 +21,45 @@ namespace GraficadorSeñales
             double tiempoInicial = double.Parse(txtTiempoInicial.Text);
             double tiempoFinal = double.Parse(txtTiempoFinal.Text);
             double frecuenciaMuestreo = double.Parse(txtFrecuenciaMuestreo.Text);
-            
-            SeñalSenoidal señal = new SeñalSenoidal(amplitud, fase, frecuencia); //constructor
 
-            double periodoMuestreo = 1 / frecuenciaMuestreo;
+            Señal señal;
+            switch (cbTipoSeñal.SelectedIndex)
+            {
+                //Señal Senoidal
+                case 0: señal = new SeñalSenoidal(amplitud, fase, frecuencia); //constructor
+                    break;
+
+                //Rampa
+                case 1: señal = new SeñalRampa();
+                    break;
+                default:
+                    señal = null;
+                    break;
+            }
+
+            señal.TiempoInicial = tiempoInicial;
+            señal.TiempoFinal = tiempoFinal;
+            señal.FrecuenciaMuestreo = frecuenciaMuestreo;
+            
+            señal.construirSeñalDigital();
 
             plnGrafica.Points.Clear();
 
-            for(double i = tiempoInicial; i <= tiempoFinal; i += periodoMuestreo)
+            if(señal != null)
             {
-                double valorMuestra = señal.evaluar(i);
-
-                señal.Muestras.Add(new Muestra(i, valorMuestra));
-
-                if (Math.Abs(valorMuestra) > señal.AmplitudMaxima)
+                //Recorre todos los elementos de una coleccion o arreglo
+                foreach (Muestra muestra in señal.Muestras)
                 {
-                    señal.AmplitudMaxima = Math.Abs(valorMuestra);
+                    plnGrafica.Points.Add(new Point((muestra.X - tiempoInicial) * scrContenedor.Width, (muestra.Y /
+                        señal.AmplitudMaxima * ((scrContenedor.Height / 2.0) - 30) * -1) + 
+                        (scrContenedor.Height / 2)));
 
                 }
-                
-            }
-            //Recorre todos los elementos de una coleccion o arreglo
-            foreach (Muestra muestra in señal.Muestras)
-            {
-                plnGrafica.Points.Add(new Point((muestra.X - tiempoInicial) * scrContenedor.Width, (muestra.Y / 
-                    señal.AmplitudMaxima * ((scrContenedor.Height / 2.0) - 30) * -1) + (scrContenedor.Height / 2)));
-                
-            }
 
+                lblAmplitudMaximaY.Text = señal.AmplitudMaxima.ToString();
+                lblAmplitudMaximaNegativaY.Text = "-" + señal.AmplitudMaxima.ToString();
+            }
+           
             plnEjeX.Points.Clear();
             //Punto del principio
             plnEjeX.Points.Add(new Point(0, (scrContenedor.Height / 2)));
@@ -62,10 +73,7 @@ namespace GraficadorSeñales
             //Punto del final
             plnEjeY.Points.Add(new Point((0 - tiempoInicial) * scrContenedor.Width, (-señal.AmplitudMaxima * 
                 ((scrContenedor.Height / 2.0) - 30) * -1) + (scrContenedor.Height / 2)));
-
-            lblAmplitudMaximaY.Text = señal.AmplitudMaxima.ToString();
-            lblAmplitudMaximaNegativaY.Text = "-" + señal.AmplitudMaxima.ToString();
-            
+                        
         }
 
         private void btnGraficarRampa_Click(object sender, RoutedEventArgs e)

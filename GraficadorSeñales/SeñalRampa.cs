@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace GraficadorSeñales
 {
-    class SeñalRampa
+    class SeñalRampa : Señal
     {
         public double TiempoInicial { get; set; }
         public double TiempoFinal { get; set; }
-
-        public List<Muestra> Muestras { get; set; }
+        
 
         public SeñalRampa()
         {
             TiempoInicial = 0.0;
             TiempoFinal = 1.0;
             Muestras = new List<Muestra>();
+            AmplitudMaxima = 0.0;
         }
 
         public SeñalRampa(double tiempoInicial, double tiempoFinal)
@@ -25,14 +25,15 @@ namespace GraficadorSeñales
             TiempoInicial = tiempoInicial;
             TiempoFinal = tiempoFinal;
             Muestras = new List<Muestra>();
+            AmplitudMaxima = 0.0;
         }
 
-        public double evaluar(double tiempoInicial)
+        override public double evaluar(double tiempo)
         {
             double resultado;
-            if (tiempoInicial >= 0)
+            if (tiempo >= 0)
             {
-                resultado = tiempoInicial;
+                resultado = tiempo;
             }
             else
             {
