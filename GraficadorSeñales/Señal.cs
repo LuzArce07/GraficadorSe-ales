@@ -39,6 +39,40 @@ namespace GraficadorSeñales
             
         }
 
+        public void escalar(double factor)
+        {
+            foreach(Muestra muestra in Muestras)
+            {
+                muestra.Y *= factor; //Se va a multiplicar  
+                                
+            }
+
+        }
+
+        public void actualizarAmplitudMaxima() //La resetea
+        {
+            AmplitudMaxima = 0;
+            foreach(Muestra muestra in Muestras)
+            {
+                if (Math.Abs(muestra.Y) > AmplitudMaxima)
+                {
+                    AmplitudMaxima = Math.Abs(muestra.Y);
+
+                }
+
+            }
+
+        }
+
+        public void desplazarY(double factor)
+        {
+            foreach (Muestra muestra in Muestras)
+            {
+                muestra.Y += factor;  
+
+            }
+        }
+
     }
 
 }

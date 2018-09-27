@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using System.Windows;
 
 namespace GraficadorSeñales
@@ -63,6 +64,19 @@ namespace GraficadorSeñales
             señal.FrecuenciaMuestreo = frecuenciaMuestreo;
             
             señal.construirSeñalDigital();
+
+
+
+            //Escalar
+            double factorEscala = double.Parse(txtFactorEscalaAmplitud.Text);
+            señal.escalar(factorEscala);
+            
+            //Desplazamiento 
+            double desplazar = double.Parse(txtDesplazamientoY.Text);
+            señal.desplazarY(desplazar);
+
+            señal.actualizarAmplitudMaxima();
+
 
             plnGrafica.Points.Clear();
 
@@ -149,6 +163,30 @@ namespace GraficadorSeñales
 
             }
            
+        }
+
+        private void cbEscalaAmplitud_Checked(object sender, RoutedEventArgs e)
+        {
+            if (cbEscalaAmplitud.IsChecked == true)
+            {
+                txtFactorEscalaAmplitud.IsEnabled = true;
+            }
+            else
+            {
+                txtFactorEscalaAmplitud.IsEnabled = false;
+            }
+        }
+
+        private void cbDesplazamientoY_Checked(object sender, RoutedEventArgs e)
+        {
+            if (cbDesplazamientoY.IsChecked == true)
+            {
+                txtDesplazamientoY.IsEnabled = true;
+            }
+            else
+            {
+                txtDesplazamientoY.IsEnabled = false;
+            }
         }
     }
 
