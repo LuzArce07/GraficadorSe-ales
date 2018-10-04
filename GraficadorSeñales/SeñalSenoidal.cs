@@ -21,15 +21,19 @@ namespace GraficadorSeñales
             Muestras = new List<Muestra>();
             AmplitudMaxima = 0.0;
 
+            Umbral = 0.0;
+
         }
 
-        public SeñalSenoidal(double amplitud, double fase, double frecuencia)
+        public SeñalSenoidal(double amplitud, double fase, double frecuencia, double umbral)
         {
             Amplitud = amplitud;
             Fase = fase;
             Frecuencia = frecuencia;
             Muestras = new List<Muestra>();
             AmplitudMaxima = 0.0;
+
+            Umbral = Umbral;
 
         }
 

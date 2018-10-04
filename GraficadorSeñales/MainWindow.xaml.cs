@@ -20,6 +20,7 @@ namespace GraficadorSeñales
             double tiempoInicial = double.Parse(txtTiempoInicial.Text);
             double tiempoFinal = double.Parse(txtTiempoFinal.Text);
             double frecuenciaMuestreo = double.Parse(txtFrecuenciaMuestreo.Text);
+            double umbral = double.Parse(txtUmbral.Text);
 
             Señal señal;
             switch (cbTipoSeñal.SelectedIndex)
@@ -35,7 +36,7 @@ namespace GraficadorSeñales
                     double frecuencia = double.Parse(((ConfiguracionSeñalSenoidal)
                         panelConfiguracion.Children[0]).txtFrecuencia.Text);
 
-                    señal = new SeñalSenoidal(amplitud, fase, frecuencia); //constructor
+                    señal = new SeñalSenoidal(amplitud, fase, frecuencia, umbral); //constructor
 
                     break;
 
@@ -48,7 +49,7 @@ namespace GraficadorSeñales
                     double alpha = double.Parse(((ConfiguracionSeñalExponencial)
                         panelConfiguracion.Children[0]).txtAlpha.Text);
 
-                    señal = new SeñalExponencial(alpha);
+                    señal = new SeñalExponencial(alpha, umbral);
                     break;
 
                 default:
@@ -74,6 +75,10 @@ namespace GraficadorSeñales
             //Desplazamiento 
             double desplazar = double.Parse(txtDesplazamientoY.Text);
             señal.desplazarY(desplazar);
+
+            //Truncar
+            
+            señal.truncar(umbral);
 
             señal.actualizarAmplitudMaxima();
 
@@ -115,8 +120,9 @@ namespace GraficadorSeñales
         {
             double tiempoInicial = double.Parse(txtTiempoInicial.Text);
             double tiempoFinal = double.Parse(txtTiempoFinal.Text);
+            double umbral = double.Parse(txtUmbral.Text);
 
-            SeñalRampa rampa = new SeñalRampa(tiempoInicial, tiempoFinal);
+            SeñalRampa rampa = new SeñalRampa(tiempoInicial, tiempoFinal, umbral);
 
             plnGrafica.Points.Clear();
 
@@ -186,6 +192,21 @@ namespace GraficadorSeñales
             else
             {
                 txtDesplazamientoY.IsEnabled = false;
+            }
+        }
+
+        
+
+        private void cbUmbral_Checked(object sender, RoutedEventArgs e)
+        {
+            if (cbUmbral.IsChecked == true)
+            {
+                txtUmbral.IsEnabled = true;
+
+            } 
+            else
+            {
+                txtUmbral.IsEnabled = false;
             }
         }
     }

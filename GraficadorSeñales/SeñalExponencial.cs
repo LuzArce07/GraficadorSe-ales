@@ -11,13 +11,15 @@ namespace GraficadorSeñales
         public SeñalExponencial()
         {
             Alpha = 1.0;
+            Umbral = 0.0;
             Muestras = new List<Muestra>();
             AmplitudMaxima = 0.0;
         }
 
-        public SeñalExponencial(double alpha)
+        public SeñalExponencial(double alpha, double umbral)
         {
             Alpha = alpha;
+            Umbral = umbral;
             Muestras = new List<Muestra>();
             AmplitudMaxima = 0.0;
         }

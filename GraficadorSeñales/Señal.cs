@@ -11,6 +11,8 @@ namespace GraficadorSeñales
         public List<Muestra> Muestras { get; set; }
         public double AmplitudMaxima { get; set; }
 
+        public double Umbral { get; set; }
+
         public double TiempoInicial { get; set; }
         public double TiempoFinal { get; set; }
         public double FrecuenciaMuestreo { get; set; }
@@ -73,6 +75,23 @@ namespace GraficadorSeñales
             }
         }
 
+        public void truncar(double umbral)
+        {
+            
+            foreach (Muestra muestra in Muestras)
+            {
+                if (muestra.Y > umbral)
+                {
+                    muestra.Y = umbral;
+                }
+                else if (muestra.Y < (- 1 * umbral))
+                {
+                    muestra.Y = -1 * umbral;
+                }
+
+            }
+
+        }
     }
 
 }
