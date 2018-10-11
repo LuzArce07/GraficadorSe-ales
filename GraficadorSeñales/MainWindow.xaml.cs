@@ -209,6 +209,11 @@ namespace GraficadorSeñales
                 txtUmbral.IsEnabled = false;
             }
         }
+
+        private void cbTipoSeñal_SegundaSeñal_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
+        }
     }
 
 }
