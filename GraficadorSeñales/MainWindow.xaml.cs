@@ -20,9 +20,15 @@ namespace GraficadorSeñales
             double tiempoInicial = double.Parse(txtTiempoInicial.Text);
             double tiempoFinal = double.Parse(txtTiempoFinal.Text);
             double frecuenciaMuestreo = double.Parse(txtFrecuenciaMuestreo.Text);
+
+
             double umbral = double.Parse(txtUmbral.Text);
+            double umbral_segundaSeñal = double.Parse(txtUmbral_SegundaSeñal.Text);
 
             Señal señal;
+            Señal segundaSeñal;
+
+            //PRIMERA SEÑAL
             switch (cbTipoSeñal.SelectedIndex)
             {
                 //Señal Senoidal
@@ -45,6 +51,7 @@ namespace GraficadorSeñales
 
                     break;
 
+                //Exponencial
                 case 2:
                     double alpha = double.Parse(((ConfiguracionSeñalExponencial)
                         panelConfiguracion.Children[0]).txtAlpha.Text);
@@ -60,13 +67,55 @@ namespace GraficadorSeñales
 
             }
 
+            //SEGUNDA SEÑAL
+            switch (cbTipoSeñal_SegundaSeñal.SelectedIndex)
+            {
+                //Señal Senoidal
+                case 0:
+                    double amplitud = double.Parse(((ConfiguracionSeñalSenoidal)
+                        panelConfiguracion_SegundaSeñal.Children[0]).txtAmplitud.Text);
+
+                    double fase = double.Parse(((ConfiguracionSeñalSenoidal)
+                        panelConfiguracion_SegundaSeñal.Children[0]).txtFase.Text);
+
+                    double frecuencia = double.Parse(((ConfiguracionSeñalSenoidal)
+                        panelConfiguracion_SegundaSeñal.Children[0]).txtFrecuencia.Text);
+
+                    segundaSeñal = new SeñalSenoidal(amplitud, fase, frecuencia, umbral); //constructor
+
+                    break;
+
+                //Rampa
+                case 1:
+                    segundaSeñal = new SeñalRampa();
+
+                    break;
+
+                //Exponencial
+                case 2:
+                    double alpha = double.Parse(((ConfiguracionSeñalExponencial)
+                        panelConfiguracion_SegundaSeñal.Children[0]).txtAlpha.Text);
+
+                    segundaSeñal = new SeñalExponencial(alpha, umbral);
+                    break;
+
+                default:
+
+                    segundaSeñal = null;
+
+                    break;
+
+            }
+
+            
+
+            
+            
+            //---------------------------------PRIMERA SEÑAL------------------------------------------------------//
             señal.TiempoInicial = tiempoInicial;
             señal.TiempoFinal = tiempoFinal;
             señal.FrecuenciaMuestreo = frecuenciaMuestreo;
-            
             señal.construirSeñalDigital();
-
-
 
             //Escalar
             double factorEscala = double.Parse(txtFactorEscalaAmplitud.Text);
@@ -77,13 +126,34 @@ namespace GraficadorSeñales
             señal.desplazarY(desplazar);
 
             //Truncar
-            
             señal.truncar(umbral);
 
-            señal.actualizarAmplitudMaxima();
 
+
+            //------------------------------------SEGUNDA SEÑAL--------------------------------------------------//
+            segundaSeñal.TiempoInicial = tiempoInicial;
+            segundaSeñal.TiempoFinal = tiempoFinal;
+            segundaSeñal.FrecuenciaMuestreo = frecuenciaMuestreo;
+            segundaSeñal.construirSeñalDigital();
+
+            //Escalar
+            double factorEscala_segundaSeñal = double.Parse(txtFactorEscalaAmplitud_SegundaSeñal.Text);
+            segundaSeñal.escalar(factorEscala_segundaSeñal);
+
+            //Desplazamiento 
+            double desplazar_segundaSeñal = double.Parse(txtDesplazamientoY_SegundaSeñal.Text);
+            segundaSeñal.desplazarY(desplazar_segundaSeñal);
+
+            //Truncar
+            segundaSeñal.truncar(umbral_segundaSeñal);
+
+
+
+            señal.actualizarAmplitudMaxima();
+            segundaSeñal.actualizarAmplitudMaxima();
 
             plnGrafica.Points.Clear();
+
 
             if(señal != null)
             {
@@ -98,13 +168,15 @@ namespace GraficadorSeñales
 
                 lblAmplitudMaximaY.Text = señal.AmplitudMaxima.ToString();
                 lblAmplitudMaximaNegativaY.Text = "-" + señal.AmplitudMaxima.ToString();
+
             }
            
             plnEjeX.Points.Clear();
             //Punto del principio
             plnEjeX.Points.Add(new Point(0, (scrContenedor.Height / 2)));
             //Punto del final
-            plnEjeX.Points.Add(new Point((tiempoFinal - tiempoInicial) * scrContenedor.Width, (scrContenedor.Height / 2)));
+            plnEjeX.Points.Add(new Point((tiempoFinal - tiempoInicial) * scrContenedor.Width, 
+                (scrContenedor.Height / 2)));
 
             plnEjeY.Points.Clear();
             //Punto del principio
@@ -165,12 +237,38 @@ namespace GraficadorSeñales
 
                     default:
                         break;
+
                 }
 
             }
            
         }
 
+        private void cbTipoSeñal_SegundaSeñal_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            panelConfiguracion_SegundaSeñal.Children.Clear();
+            switch (cbTipoSeñal_SegundaSeñal.SelectedIndex)
+            {
+                case 0: //Senoidal
+                    panelConfiguracion_SegundaSeñal.Children.Add(new ConfiguracionSeñalSenoidal());
+                    break;
+
+                case 1://Rampa
+                    
+                    break;
+
+                case 2: //Exponencial
+                    panelConfiguracion_SegundaSeñal.Children.Add(new ConfiguracionSeñalExponencial());
+                    break;
+                    
+                default:
+
+                    break;
+
+            }
+        }
+
+        //CHECKBOX
         private void cbEscalaAmplitud_Checked(object sender, RoutedEventArgs e)
         {
             if (cbEscalaAmplitud.IsChecked == true)
@@ -194,9 +292,7 @@ namespace GraficadorSeñales
                 txtDesplazamientoY.IsEnabled = false;
             }
         }
-
         
-
         private void cbUmbral_Checked(object sender, RoutedEventArgs e)
         {
             if (cbUmbral.IsChecked == true)
@@ -209,11 +305,7 @@ namespace GraficadorSeñales
                 txtUmbral.IsEnabled = false;
             }
         }
-
-        private void cbTipoSeñal_SegundaSeñal_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-
-        }
+        
     }
 
 }

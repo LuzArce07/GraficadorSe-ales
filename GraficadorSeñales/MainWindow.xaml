@@ -40,7 +40,7 @@
         <TextBlock HorizontalAlignment="Left" Margin="15,195,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Height="17"><Run Text="Umbral"/><Run Text=":"/><LineBreak/><Run/></TextBlock>
         <TextBox x:Name="txtUmbral" HorizontalAlignment="Left" Height="23" Margin="15,217,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="70" IsEnabled="False" />
         <CheckBox x:Name="cbUmbral" Content="&#xD;&#xA;" HorizontalAlignment="Left" Margin="90,217,0,0" VerticalAlignment="Top" Click="cbUmbral_Checked"/>
-        <StackPanel x:Name="panelConfiguracion_Copy" HorizontalAlignment="Left" Height="170" Margin="201,323,0,0" VerticalAlignment="Top" Width="121"/>
+        <StackPanel x:Name="panelConfiguracion_SegundaSeñal" HorizontalAlignment="Left" Height="170" Margin="201,323,0,0" VerticalAlignment="Top" Width="121"/>
         <ComboBox x:Name="cbTipoSeñal_SegundaSeñal" SelectedIndex="0" Margin="201,274,712,0" VerticalAlignment="Top" SelectionChanged="cbTipoSeñal_SegundaSeñal_SelectionChanged">
             <ComboBoxItem Content="Señal Senoidal" />
             <ComboBoxItem Content="Señal Rampa" />
