@@ -9,6 +9,8 @@ namespace GraficadorSeñales
     /// </summary>
     public partial class MainWindow : Window
     {
+        double amplitudMaxima = 1;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -108,9 +110,6 @@ namespace GraficadorSeñales
             }
 
             
-
-            
-            
             //---------------------------------PRIMERA SEÑAL------------------------------------------------------//
             señal.TiempoInicial = tiempoInicial;
             señal.TiempoFinal = tiempoFinal;
@@ -126,7 +125,7 @@ namespace GraficadorSeñales
             señal.desplazarY(desplazar);
 
             //Truncar
-            señal.truncar(umbral);
+            //señal.truncar(umbral);
 
 
 
@@ -145,32 +144,54 @@ namespace GraficadorSeñales
             segundaSeñal.desplazarY(desplazar_segundaSeñal);
 
             //Truncar
-            segundaSeñal.truncar(umbral_segundaSeñal);
-
+            //segundaSeñal.truncar(umbral_segundaSeñal);
+           
 
 
             señal.actualizarAmplitudMaxima();
             segundaSeñal.actualizarAmplitudMaxima();
 
+            amplitudMaxima = señal.AmplitudMaxima;
+            if(segundaSeñal.AmplitudMaxima > amplitudMaxima)
+            {
+                amplitudMaxima = segundaSeñal.AmplitudMaxima;
+
+            }
+
             plnGrafica.Points.Clear();
+            plnGrafica2.Points.Clear();
 
+            lblAmplitudMaximaY.Text = amplitudMaxima.ToString("F");
+            lblAmplitudMaximaNegativaY.Text = "-" + amplitudMaxima.ToString("F");
 
-            if(señal != null)
+            //PRIMERA SEÑAL
+            if (señal != null)
             {
                 //Recorre todos los elementos de una coleccion o arreglo
                 foreach (Muestra muestra in señal.Muestras)
                 {
                     plnGrafica.Points.Add(new Point((muestra.X - tiempoInicial) * scrContenedor.Width, (muestra.Y /
-                        señal.AmplitudMaxima * ((scrContenedor.Height / 2.0) - 30) * -1) + 
+                        amplitudMaxima * ((scrContenedor.Height / 2.0) - 30) * -1) + 
+                        (scrContenedor.Height / 2)));
+
+                }
+                
+            }
+
+            //SEGUNDA SEÑAL
+            if (segundaSeñal != null)
+            {
+                //Recorre todos los elementos de una coleccion o arreglo
+                foreach (Muestra muestra in segundaSeñal.Muestras)
+                {
+                    plnGrafica2.Points.Add(new Point((muestra.X - tiempoInicial) * scrContenedor.Width, (muestra.Y /
+                        amplitudMaxima * ((scrContenedor.Height / 2.0) - 30) * -1) +
                         (scrContenedor.Height / 2)));
 
                 }
 
-                lblAmplitudMaximaY.Text = señal.AmplitudMaxima.ToString();
-                lblAmplitudMaximaNegativaY.Text = "-" + señal.AmplitudMaxima.ToString();
-
             }
-           
+
             plnEjeX.Points.Clear();
             //Punto del principio
             plnEjeX.Points.Add(new Point(0, (scrContenedor.Height / 2)));
@@ -227,11 +248,11 @@ namespace GraficadorSeñales
                         panelConfiguracion.Children.Add(new ConfiguracionSeñalSenoidal());
                         break;
 
-                    case 1:
+                    case 1: //Rampa
 
                         break;
 
-                    case 2:
+                    case 2://Exponencial
                         panelConfiguracion.Children.Add(new ConfiguracionSeñalExponencial());
                         break;
 
@@ -268,7 +289,7 @@ namespace GraficadorSeñales
             }
         }
 
-        //CHECKBOX
+        //CHECKBOX'S
         private void cbEscalaAmplitud_Checked(object sender, RoutedEventArgs e)
         {
             if (cbEscalaAmplitud.IsChecked == true)
