@@ -116,6 +116,29 @@ namespace GraficadorSeñales
 
         }
 
+        public static Señal multiplicar(Señal multiplicando1, Señal multiplicando2)
+        {
+            SeñalPersonalizada resultado = new SeñalPersonalizada();
+            resultado.TiempoInicial = multiplicando1.TiempoInicial;
+            resultado.TiempoFinal = multiplicando1.TiempoFinal;
+            resultado.FrecuenciaMuestreo = multiplicando1.FrecuenciaMuestreo;
+
+            int indice = 0;
+            foreach (Muestra muestra in multiplicando1.Muestras)
+            {
+                Muestra muestraResultado = new Muestra();
+                muestraResultado.X = muestra.X;
+                muestraResultado.Y = muestra.Y * multiplicando2.Muestras[indice].Y;
+                indice++;
+
+                resultado.Muestras.Add(muestraResultado);
+
+            }
+
+            return resultado;
+
+        }
+
     }
 
 }
