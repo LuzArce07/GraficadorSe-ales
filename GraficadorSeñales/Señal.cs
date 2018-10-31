@@ -142,7 +142,7 @@ namespace GraficadorSeñales
         public static Señal convolucionar(Señal operando1, Señal operando2)
         {
             SeñalPersonalizada resultado = new SeñalPersonalizada();
-            resultado.TiempoInicial = operando1.TiempoInicial + operando2.TiempoFinal;
+            resultado.TiempoInicial = operando1.TiempoInicial + operando2.TiempoInicial;
             resultado.TiempoFinal = operando1.TiempoFinal + operando2.TiempoFinal;
             resultado.FrecuenciaMuestreo = operando1.FrecuenciaMuestreo;
 
